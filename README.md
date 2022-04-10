@@ -34,3 +34,6 @@
 
 ## Физическая модель данных для файла [Superstore.xls](https://github.com/annchursina/DE---101-Module02/blob/main/Sample%20-%20Superstore%20%281%29.xls)
 ![Физическая модель](https://github.com/annchursina/DE---101-Module02/blob/main/%D0%A4%D0%B8%D0%B7%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F%20%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C.PNG)
+
+## В файле [sales_fact.sql](https://github.com/annchursina/DE---101-Module02/blob/main/sales_fact.sql) содержится скрипт для создания главных таблиц (customer, calendar, geography, product) и зависимой таблицы sales_fact, а также скрипт для ее наполнения на основе данных из таблицы orders.
+
