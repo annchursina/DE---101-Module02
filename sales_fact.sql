@@ -1,4 +1,4 @@
----создаем главные таблицы
+---СЃРѕР·РґР°РµРј РіР»Р°РІРЅС‹Рµ С‚Р°Р±Р»РёС†С‹
 drop table calendar cascade;
 CREATE TABLE calendar
 (
@@ -41,7 +41,7 @@ CREATE TABLE product
  CONSTRAINT PK_26 PRIMARY KEY ( product_id )
 );
 
---создаем таблицу фактов
+--СЃРѕР·РґР°РµРј С‚Р°Р±Р»РёС†Сѓ С„Р°РєС‚РѕРІ
 
 drop table sales_fact cascade;
 CREATE TABLE sales_fact
@@ -84,34 +84,34 @@ CREATE INDEX FK_57 ON sales_fact
  customer_id
 );
 
--- заполняем таблицу customer
+-- Р·Р°РїРѕР»РЅСЏРµРј С‚Р°Р±Р»РёС†Сѓ customer
 insert into customer (customer_name, segment)
 (select distinct customer_name, segment from orders);
 select * from customer;
 
---- вставляем уникальные почтовые индексы в таблицу geography
+--- РІСЃС‚Р°РІР»СЏРµРј СѓРЅРёРєР°Р»СЊРЅС‹Рµ РїРѕС‡С‚РѕРІС‹Рµ РёРЅРґРµРєСЃС‹ РІ С‚Р°Р±Р»РёС†Сѓ geography
 truncate geography;
 insert into geography (postal_code, country, city, region, state)
 select distinct postal_code, 0, 0, 0, 0 from orders where postal_code is not null;
 select * from geography;
 
---- дополняем таблицу geography атрибутами полей страна, город, штат, регион из таблицы orders
+--- РґРѕРїРѕР»РЅСЏРµРј С‚Р°Р±Р»РёС†Сѓ geography Р°С‚СЂРёР±СѓС‚Р°РјРё РїРѕР»РµР№ СЃС‚СЂР°РЅР°, РіРѕСЂРѕРґ, С€С‚Р°С‚, СЂРµРіРёРѕРЅ РёР· С‚Р°Р±Р»РёС†С‹ orders
 update geography as g
 set country=o.country, state=o.state, city=o.city, region=o.region from orders as o where g.postal_code=o.postal_code;
 select * from geography;
 
---заполняем таблицу product
+--Р·Р°РїРѕР»РЅСЏРµРј С‚Р°Р±Р»РёС†Сѓ product
 insert into product (category, subcategory, product_name)
 select distinct category, subcategory, product_name from orders;
 select * from product;
 
 
--- заполняем таблицу calendar
+-- Р·Р°РїРѕР»РЅСЏРµРј С‚Р°Р±Р»РёС†Сѓ calendar
 insert into calendar (date_date, year, quarter, month, week, weekday)
 select distinct order_date, extract('year' from order_date), EXTRACT(QUARTER from order_date), extract('month' from order_date), EXTRACT(WEEK from order_date), extract(dow from order_date) from orders;
 select * from calendar;
 
---- заполняем таблицу sales_fact
+--- Р·Р°РїРѕР»РЅСЏРµРј С‚Р°Р±Р»РёС†Сѓ sales_fact
 insert into sales_fact (row_id, order_id, customer_id, postal_code, product_id, date_date, sales_amount, profit, quantity, discount, ship_mode)
 select row_id, order_id, 1, 42420, 1, order_date, sales, profit, quantity, discount, ship_mode from orders;
 select * from sales_fact;
